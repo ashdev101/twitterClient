@@ -77,10 +77,11 @@ function ForYou({ }: Props) {
 
         return false
     }
-    const isNoMoreData = useState(postList?.length === 1)
-    const [isIntersecting, setIntersecting] = useState(false)
+    // const isNoMoreData = useState(postList?.length === 1)
 
-    const intObserver = useRef<IntersectionObserver | null>(null) 
+    // const [isIntersecting, setIntersecting] = useState(false)
+
+    // const intObserver = useRef<IntersectionObserver | null>(null) 
 
     // const intLastElement = useCallback( (node: HTMLDivElement | null) =>{
         

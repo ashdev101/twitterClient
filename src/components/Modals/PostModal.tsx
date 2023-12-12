@@ -138,7 +138,7 @@ function PostModal({ }: Props) {
 
                             <div id='AvatarPosts'>
                                 <Avatar
-                                    name='A'
+                                    
                                 />
                             </div>
                             <div className=' flex flex-col items-start justify-center gap-1 self-start  w-full text-[rgb(142,205,247)]'>

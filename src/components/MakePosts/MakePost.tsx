@@ -111,6 +111,8 @@ function MakePost({ }: Props) {
         }
     }
 
+
+    const isPostButtonDisabled = mutationForUplaodingMedia.isPending || isPending || post.content.length < 2
     useEffect(() => {
         //just to be extra cautious that there should be no unexpexted behaviour
         if (!isPostButtonDisabled) {
@@ -122,17 +124,16 @@ function MakePost({ }: Props) {
             image: undefined
         })
         dispatch(ClearGif())
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [post.image, isPostButtonDisabled])
 
-    }, [post.image])
-
-    const isPostButtonDisabled = mutationForUplaodingMedia.isPending || isPending || post.content.length < 2
 
 
     return (
         <section id='setPost' className=' flex flex-row items-start gap-2 justify-between w-full  mt-3 p-3'>
             <div id='AvatarPosts'>
                 <Avatar
-                    // profileImageUrl={"/"}
+                // profileImageUrl={"/"}
                 />
             </div>
             <div className=' flex flex-col items-start justify-center gap-1 self-start w-full text-[rgb(142,205,247)]'>
