@@ -1,9 +1,8 @@
 'use client'
-import {useState ,MutableRefObject ,useRef , useCallback} from 'react'
+import { useEffect, useState } from 'react'
 import PostCard from '../PostCard/PostCard'
 import { getAllTweets } from '../../../ReactQueryQueries/Tweets'
 import { formatDistance } from 'date-fns'
-import { getUser } from '../../../ReactQueryQueries/getCurrentUser'
 import { useRouter } from 'next/navigation'
 import { useSelector } from 'react-redux'
 import { RootState } from '../../../Features/Store/Store'
@@ -12,25 +11,28 @@ type Props = {}
 
 function ForYou({ }: Props) {
     const [currentPage, setCurrentPage] = useState(1)
-    const [take, setTake] = useState(2)
-    const [skip, setSkip] = useState(currentPage * take)
+    // const [take, setTake] = useState(2)
+    // const [skip, setSkip] = useState(currentPage * take)
     // const { data, isLoading } = getAllTweets(skip , take)
-    const { data, isLoading } = getAllTweets()
-    const [element , setElement]= useState(null)
+    const { data } = getAllTweets()
+    const [element, setElement] = useState(null)
     const router = useRouter()
     // const lastElementRef = useCallback(node => setElement(node),[])
-    
 
-    const userId = useSelector((state:RootState)=>state.CurrentUser.currentUser.id)
 
-    if(!userId){
-        router.push("/signin")
-    }
+    const userId = useSelector((state: RootState) => state.CurrentUser.currentUser.id)
+
+    useEffect(() => {
+        if (!userId) {
+            router.push("/signin")
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [userId])
 
     const postList = data?.getAllTweets
 
 
-    console.log(postList?.length)
+    // console.log(postList?.length)
 
     if (postList?.length === 0) {
         return ("no post to show")
@@ -47,10 +49,10 @@ function ForYou({ }: Props) {
 
     }
 
-    
 
-    
-    
+
+
+
     const videoFormats = [
         'mp4',
         'webm',
@@ -84,7 +86,7 @@ function ForYou({ }: Props) {
     // const intObserver = useRef<IntersectionObserver | null>(null) 
 
     // const intLastElement = useCallback( (node: HTMLDivElement | null) =>{
-        
+
     //     if(isLoading )  return 
     //     console.log(intObserver.current)
     //     if(intObserver && intObserver.current) intObserver.current.disconnect()
@@ -95,7 +97,7 @@ function ForYou({ }: Props) {
     //     })
     //     if(node) intObserver.current.observe(node)
     // },[isLoading , isNoMoreData , currentPage])
-    
+
 
     // useEffect(() => {
     //     console.log(ref)
@@ -122,19 +124,19 @@ function ForYou({ }: Props) {
 
         <section >
             {/* id='postFeeds' className=' min-h-max flex flex-col items-center justify-center gap-3 pr-4 sm:pr-0' */}
-        
+
             {
                 postList &&
                 postList.map(
                     (item, index) => {
-                        
+
                         //need to do as ts is throwing an error of item being empty 
 
 
                         if (item && postList.length === index + 1) {
-                            
+
                             return (
-                                <div key={index} 
+                                <div key={index}
                                 // ref={intLastElement}
                                 >
                                     <PostCard

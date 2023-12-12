@@ -1,10 +1,7 @@
 import LeftHandler from '@/components/LeftHandle/LeftHandler'
-import MakePost from '@/components/MakePosts/MakePost'
-import EmojiModal from '@/components/Modals/EmojiModal'
 import Giphy from '@/components/Modals/Giphy'
 import PostModal from '@/components/Modals/PostModal'
 import PostMake from '@/components/PhoneComponent/PostMake'
-import SideMenuBarPhone from '@/components/PhoneComponent/SideMenuBarPhone'
 import BottomHandler from '@/components/PhoneComponent/bottomHandler'
 import RightHandler from '@/components/RightHandler/RightHandler'
 

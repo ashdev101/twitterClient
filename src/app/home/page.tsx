@@ -1,9 +1,7 @@
 import CurrentFeeds from '@/components/Feeds/CurrentFeeds'
 import MakePost from '@/components/MakePosts/MakePost'
 import TopHeaderPhone from '@/components/PhoneComponent/TopHeader'
-import PostCard from '@/components/PostCard/PostCard'
 import TopHeader from '@/components/centerTopHeader/TopHeader'
-
 
 
 type Props = {}

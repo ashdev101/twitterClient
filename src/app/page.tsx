@@ -46,12 +46,15 @@ type Props = {}
 function Page({ }: Props) {
   const router = useRouter()
   const { user } = getUser()
-  console.log("rendered")
-  if (user?.id) {
-    router.push("/home")
-  } else {
-    router.push("/signin")
-  }
+  // console.log("rendered")
+  useEffect(() => {
+    if (user?.id) {
+      router.push("/home")
+    } else {
+      router.push("/signin")
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [user?.id])
 }
 
 export default Page
