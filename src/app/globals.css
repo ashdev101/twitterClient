@@ -8,3 +8,8 @@
   --background-end-rgb: 255, 255, 255;
 }
 
+/* for emoji selector  */
+.EmojiPickerReact.epr-main{
+  z-index: 650;
+}
+

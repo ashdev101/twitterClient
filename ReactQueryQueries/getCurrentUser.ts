@@ -1,6 +1,7 @@
 import {
     useMutation,
-    useQuery
+    useQuery,
+    useQueryClient
 } from '@tanstack/react-query'
 import { graphqlClient } from '../clients/graphqlClient'
 import { getCurrentUserQuery } from '../graphql/query/user'
@@ -15,7 +16,8 @@ export const getUser = () => {
         queryKey: ["current-user"],
         queryFn: async () => {
             return await graphqlClient.request(getCurrentUserQuery)
-        }
+        },
+        
     })
 
     return { user: query.data?.getCurrentUser }
@@ -23,7 +25,9 @@ export const getUser = () => {
 }
 
 
+
 export const makeTweet = () => {
+ const queryClient = useQueryClient()
 
     const mutation = useMutation({
         mutationFn: async ({ content, image }: Post) => {
@@ -31,12 +35,16 @@ export const makeTweet = () => {
         },
         onSuccess : ()=>{
             toast.success("tweet added succesfully")
+            queryClient.invalidateQueries({queryKey : ["all-tweets"]})
         },
         onError : (error)=>{
             console.log(error.message.split(":")[1])
             toast.error(error.message.split(":")[1])
-        }
+        },
+        
     })
 
     return mutation
 }
+
+

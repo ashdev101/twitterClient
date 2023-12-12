@@ -11,11 +11,31 @@ import { request, gql } from 'graphql-request'
 import { graphqlClient, graphqlClientForTokenVerification } from '../../../clients/graphqlClient';
 import toast from 'react-hot-toast/headless';
 import { verifyUserGoogleTokenQuery } from '../../../graphql/query/user';
+import { useRouter } from 'next/navigation';
+import { getUser } from '../../../ReactQueryQueries/getCurrentUser';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '../../../Features/Store/Store';
+import { setCurrentUser } from '../../../Features/CurrentUserSlice';
+import { useQueryClient } from '@tanstack/react-query';
 
 
 type Props = {}
 
 function SignInModal({ }: Props) {
+    const router = useRouter()
+    // console.log(window.localStorage.getItem("__token_test"))
+    const queryClient = useQueryClient()
+    const dispatch = useDispatch()
+
+    const { user } = getUser()
+    console.log(user)
+    if (user?.id) {
+        dispatch(setCurrentUser({
+            id: user.id,
+            email: user.email
+        }))
+        router.push("/home")
+    }
 
 
     const sendTokenToBackend = useCallback(async (authToken: Omit<TokenResponse, "error" | "error_description" | "error_uri">) => {
@@ -27,10 +47,12 @@ function SignInModal({ }: Props) {
                 const { verifyGoogleToken } = await graphqlClientForTokenVerification.request(verifyUserGoogleTokenQuery, { token: authToken.access_token })
                 // console.log(verifyGoogleToken)
                 if (verifyGoogleToken) {
+                    console.log("yes in ")
                     window.localStorage.setItem("__token_test", verifyGoogleToken)
+                    queryClient.invalidateQueries({ queryKey: ["current-user"] })
                     toast.success("signin succesfull")
                 } else {
-                    toast.error("faild to load acess token ")
+                    toast.error("failed to load acess token ")
                 }
             }
         } catch (err) {
@@ -43,7 +65,6 @@ function SignInModal({ }: Props) {
     const login = useGoogleLogin({
         onSuccess: sendTokenToBackend,
         onError: () => toast.error("oops something went wrong")
-
     });
 
 

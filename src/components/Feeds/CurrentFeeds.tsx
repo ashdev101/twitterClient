@@ -11,7 +11,7 @@ function CurrentFeeds({ currentSelection }: Props): React.ReactNode {
     
 
     if (currentSelection === "1") {
-        console.log(true)
+        // console.log(true)
         return <ForYou />
     }
     else {

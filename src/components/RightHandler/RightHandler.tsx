@@ -8,7 +8,7 @@ type Props = {}
 
 function RightHandler({ }: Props) {
     return (
-        <section className=' hidden lg:block max-w-[350px] w-full h-full lg:border-[1px] border-blue-300 relative'>
+        
             <div
                 // className='w-full h-full absolute top-0 left-4'
                 className='w-full h-full  '
@@ -138,7 +138,7 @@ function RightHandler({ }: Props) {
 
                 </main >
             </div>
-        </section >
+        // </section >
     )
 }
 

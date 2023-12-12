@@ -5,6 +5,7 @@ import { GoogleOAuthProvider } from '@react-oauth/google';
 import GoogleAuthProvider from '@/providers/GoogleAuthProvider';
 import { Toaster } from 'react-hot-toast';
 import ReactQueryProvider from '@/providers/ReactQueryProvider';
+import ReduxProvider from '@/providers/ReduxProvider';
 
 
 const inter = Inter({ subsets: ['latin'] })
@@ -23,10 +24,12 @@ export default function RootLayout({
     <html lang="en">
       <body className={inter.className}>
         <GoogleAuthProvider>
-          <ReactQueryProvider>
-            <Toaster />
-            {children}
-          </ReactQueryProvider>
+          <ReduxProvider>
+            <ReactQueryProvider>
+              <Toaster />
+              {children}
+            </ReactQueryProvider>
+          </ReduxProvider>
         </GoogleAuthProvider>
 
       </body>
