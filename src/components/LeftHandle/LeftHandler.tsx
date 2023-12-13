@@ -72,7 +72,7 @@ function LeftHandler({ }: Props) {
     const router = useRouter()
     const dispatch = useDispatch()
     const { user } = getUser()
-    console.log(user)
+    // console.log(user)
     const [userOptionIsOpen, setUserOptionIsOpen] = useState(false)
 
 

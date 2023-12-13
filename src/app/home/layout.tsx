@@ -37,8 +37,7 @@ function layout({ children }: Props) {
 
             {children}
    
-            
-
+        
             <section className=' hidden lg:block max-w-[350px] w-full h-full  sticky '>
                 <RightHandler />
             </section>

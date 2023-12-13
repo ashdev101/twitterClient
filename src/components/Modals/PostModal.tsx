@@ -8,7 +8,7 @@ import { BiSmile } from 'react-icons/bi'
 import { TbCalendarTime } from 'react-icons/tb'
 import { CiLocationOn } from 'react-icons/ci'
 import Avatar from '../Avatar/Avatar'
-import { ChangeEvent, MouseEvent, useRef, useState } from 'react'
+import { ChangeEvent, MouseEvent, useEffect, useRef, useState } from 'react'
 import { useMutation } from '@tanstack/react-query'
 import { makeTweet } from '../../../ReactQueryQueries/getCurrentUser'
 import { IoIosArrowRoundBack } from "react-icons/io";
@@ -40,15 +40,22 @@ export type SelectedFiles = {
 type Props = {}
 
 function PostModal({ }: Props) {
+    const isOpen = useSelector((state: RootState) => state.PostModal.isOpen)
     const isEmojiOpen = useSelector((state: RootState) => state.SelectEmoji.isEmojiOpen)
-    const fileInputRef = useRef<HTMLInputElement>(null)
-    const formData = new FormData()
-    // const [isEmojiOpen, setIsEmojiOpen] = useState(false)
+
     const SelectedGif: string = useSelector((state: RootState) => state.SelectGif.selectedGif)
     // console.log(SelectedGif)
 
-    const isOpen = useSelector((state: RootState) => state.PostModal.isOpen)
+    const fileInputRef = useRef<HTMLInputElement>(null)
+    const formData = new FormData()
+    // if(SelectedGif.length > 2){
+    //     const fetchSelectedGif = useQuery({
+    //         queryKey : ["selected-gif"] ,
+    //         queryFn : async()=> axios(SelectedGif)
+    //     })
+    // }
     const dispatch = useDispatch()
+
 
     const [selectedFiles, setSelectedFiles] = useState<SelectedFiles>({
         file: undefined,
@@ -60,7 +67,10 @@ function PostModal({ }: Props) {
         image: undefined
     })
 
+    // console.log(post.content)
+
     const { mutate, isPending } = makeTweet()
+
 
     const mutationForUplaodingMedia = useMutation({
         mutationFn: async () => {
@@ -68,12 +78,10 @@ function PostModal({ }: Props) {
             return res.data
         },
         onSuccess: (data) => {
-            // console.log(data)
+            console.log(data.url)
             SetPosts({ ...post, image: data.url })
-            mutate(post)
-            setSelectedFiles({ file: undefined, selectedFileURL: "" })
-            SetPosts({content : "" , image : undefined})
-            // console.log("cleared")
+
+
         },
         onError: (err) => {
             toast.error("Opps Somehting went wrong ")
@@ -83,9 +91,11 @@ function PostModal({ }: Props) {
 
     const handleMakeTweet = (e: MouseEvent<HTMLButtonElement, globalThis.MouseEvent>) => {
         e.preventDefault()
-        if (!selectedFiles.file) return
 
-        formData.append("file", selectedFiles.file)
+        if (!selectedFiles.file && !SelectedGif) return
+
+        selectedFiles.file ? formData.append("file", selectedFiles.file) : formData.append("file", SelectedGif)
+
         formData.append("upload_preset", "ml_default");
         mutationForUplaodingMedia.mutate()
     }
@@ -108,9 +118,20 @@ function PostModal({ }: Props) {
     }
 
 
-
     const isPostButtonDisabled = mutationForUplaodingMedia.isPending || isPending || post.content.length < 2
-
+    useEffect(() => {
+        //just to be extra cautious that there should be no unexpexted behaviour
+        if (!isPostButtonDisabled) {
+            mutate(post)
+        }
+        setSelectedFiles({ file: undefined, selectedFileURL: "" })
+        SetPosts({
+            content: "",
+            image: undefined
+        })
+        dispatch(ClearGif())
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [post.image])
     return (
         <>
             {
@@ -138,7 +159,7 @@ function PostModal({ }: Props) {
 
                             <div id='AvatarPosts'>
                                 <Avatar
-                                    
+
                                 />
                             </div>
                             <div className=' flex flex-col items-start justify-center gap-1 self-start  w-full text-[rgb(142,205,247)]'>
@@ -178,7 +199,7 @@ function PostModal({ }: Props) {
                                                 (
                                                     <Image
                                                         src={selectedFiles.selectedFileURL}
-                                                        alt='gif'
+                                                        alt='image'
                                                         width={400}
                                                         height={400}
                                                         className=' w-full h-full max-h-[400px] object-cover '

@@ -4,9 +4,6 @@ import React, { useState } from 'react'
 import { CiSettings } from 'react-icons/ci'
 import { RiTwitterXLine } from 'react-icons/ri'
 import SideMenuBarPhone from './SideMenuBarPhone'
-import { useScrollDirection } from 'react-use-scroll-direction'
-import { useSelector } from 'react-redux'
-import { RootState } from '../../../Features/Store/Store'
 
 type Props = {}
 
@@ -14,7 +11,7 @@ function TopHeaderPhone({ }: Props) {
     // const isVisible = useSelector((state:RootState)=>state.TopHeader.isOpen)
     
     const [sideSliderisOpen, SetSideSliderIsOpen] = useState(false)
-    console.log(sideSliderisOpen)
+    // console.log(sideSliderisOpen)
     return (
         <>
             <main className=' flex flex-col items-center justify-center gap-2 w-full h-max bg-white border-b '>

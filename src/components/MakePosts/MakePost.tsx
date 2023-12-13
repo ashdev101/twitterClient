@@ -38,7 +38,7 @@ function MakePost({ }: Props) {
 
 
     const SelectedGif: string = useSelector((state: RootState) => state.SelectGif.selectedGif)
-    console.log(SelectedGif)
+    // console.log(SelectedGif)
 
     const fileInputRef = useRef<HTMLInputElement>(null)
     const formData = new FormData()
@@ -61,7 +61,7 @@ function MakePost({ }: Props) {
         image: undefined
     })
 
-    console.log(post.content)
+    // console.log(post.content)
 
     const { mutate, isPending } = makeTweet()
 
@@ -85,7 +85,7 @@ function MakePost({ }: Props) {
 
     const handleMakeTweet = (e: MouseEvent<HTMLButtonElement, globalThis.MouseEvent>) => {
         e.preventDefault()
-        console.log("here")
+        
         if (!selectedFiles.file && !SelectedGif) return
 
         selectedFiles.file ? formData.append("file", selectedFiles.file) : formData.append("file", SelectedGif)
@@ -125,7 +125,7 @@ function MakePost({ }: Props) {
         })
         dispatch(ClearGif())
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [post.image, isPostButtonDisabled])
+    }, [post.image])
 
 
 
