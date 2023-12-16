@@ -9,7 +9,7 @@ const authorization = isClient ? `Bearer ${window.localStorage.getItem("__token_
 // console.log(window.localStorage.getItem("__token_test"))
 // console.log(authorization)
 
-export const graphqlClient = new GraphQLClient("https://twitterserver.onrender.com/graphql", {
+export const graphqlClient = new GraphQLClient("https://twitter-server-pi.vercel.app/graphql", {
     headers: () => ({
         Authorization: isClient
             ? `Bearer ${window.localStorage.getItem("__token_test")}`
@@ -18,4 +18,4 @@ export const graphqlClient = new GraphQLClient("https://twitterserver.onrender.c
 })
 
 //doing so beacuse of unepexted error thrown while sending the headers while verifying the token 
-export const graphqlClientForTokenVerification = new GraphQLClient("https://twitterserver.onrender.com/graphql")
+export const graphqlClientForTokenVerification = new GraphQLClient("https://twitter-server-pi.vercel.app/graphql")
